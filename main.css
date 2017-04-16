@@ -1,0 +1,34 @@
+html {
+    height: 100%;
+}
+
+body{
+	display: flex;
+	height:100%;
+	align-items: center;
+	justify-content:center;
+}
+
+.container{
+	display: flex;
+	height:100%;
+	align-items: center;
+	justify-content:center;
+}
+
+tr{
+	height: 70px;
+    background-color: black;
+}
+
+td{
+	width: 70px;
+}
+
+.pink{
+	background-color: pink;
+}
+
+.green{
+	background-color: #C0D9AF;
+}
