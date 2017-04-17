@@ -22,6 +22,7 @@ function playerWon(events){
 
 	}
 	
+	
 	/*for(j = 0; j < cells; j++){
 		var win = true;
 		$('tr[x=' + col + ']').hasClass(player);
