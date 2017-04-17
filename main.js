@@ -9,28 +9,47 @@ var green = 'green';
 //create a function to check if player won
 function playerWon(events){
 
-	var col = events.attr('x');
-	var line = events.parent().attr('y');
+	var win;
 
-	var win = true;
-
-	for(i = 0; i < cells; i++){
-		$('td[y=' + line + ']').hasClass(player);
-		if( ! $('td[y=' + line + ']').hasClass(player) ){
-			win = false;
+	//check horizontal lines
+	for(line = 0; line <cells; line++){
+		win = true;
+		for(col = 0; col < cells; col++){
+			if( ! $('tr[data-y=' + line + '] > td[data-x=' + col + ']').hasClass(player) ){
+				win = false;
+				break;
+			}
 		}
-
+		if (win == true){
+			break;
+		}
 	}
-	
-	
-	/*for(j = 0; j < cells; j++){
-		var win = true;
-		$('tr[x=' + col + ']').hasClass(player);
-		if( ! $('td[x=' + col + ']').hasClass(player) ){
-			win = false;
-		}
-	}*/
 
+	if(win == true){
+		setTimeout(function(){
+			alert('Winner');
+		}, 100);
+	}
+
+	//check vertical lines
+	for(col = 0; col <cells; col++){
+		win = true;
+		for(line = 0; line < cells; line++){
+			if( ! $('tr[data-y=' + line + '] > td[data-x=' + col + ']').hasClass(player) ){
+				win = false;
+				break;
+			}
+		}
+		if (win == true){
+			break;
+		}
+	}
+
+	if(win == true){
+		setTimeout(function(){
+			alert('Winner');
+		}, 100);
+	}
 }
 
 $(document).ready(function(){
@@ -54,13 +73,13 @@ $(document).ready(function(){
 			//append table data dynamically depending on the random number we get from the request. First append <tr>
 			for(i = 0; i < cells; i++){
 				y = i;
-				$('table').append('<tr y=' + i + '></tr>');
+				$('table').append('<tr data-y=' + i + '></tr>');
 			}
 
 			//then append <td>
 			for(j = 0; j < cells; j++){
 				x = j; //give ids for all <td> and get coordinates for all
-				$('tr').append('<td x=' + j + '></td>');
+				$('tr').append('<td data-x=' + j + '></td>');
 			}
 
 			//get all the clicks on all <td> and alternate colors depending on player
