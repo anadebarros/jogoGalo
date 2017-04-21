@@ -93,6 +93,13 @@ function playerWon(events){
 
 }
 
+//check for tie
+function checkTie(){
+	if( ){
+
+	}
+}
+
 function newGame(){
 	if(player1Score == 3 || player2Score == 3){
 		alert("Player " + player + " has won the tournament ");
@@ -140,11 +147,6 @@ function newGame(){
 
 				var elemento = $(ev.currentTarget);
 
-				//check for tie
-				function checkTie(){
-					
-				}
-
 				//only allow clicking if the element does not have a class
 				if( elemento.hasClass(pink) || elemento.hasClass(green) ){
 					return;
@@ -162,6 +164,8 @@ function newGame(){
 						$("#player2").html(player2Score);
 					}
 					return;
+				} else {
+					checkTie();
 				}
 
 				if(player === 'pink'){
