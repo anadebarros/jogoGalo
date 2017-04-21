@@ -5,6 +5,9 @@ var cells; //declare variable to be acessible everywhere
 var player = 'pink';
 var pink = 'pink';
 var green = 'green';
+var gameOver = false;
+var player1Score = 0;
+var player2Score = 0;
 
 //create a function to check if player won
 function playerWon(events){
@@ -29,6 +32,7 @@ function playerWon(events){
 		setTimeout(function(){
 			alert('Winner');
 		}, 100);
+		return true;
 	}
 
 	//check vertical lines
@@ -49,17 +53,60 @@ function playerWon(events){
 		setTimeout(function(){
 			alert('Winner');
 		}, 100);
+		return true;
 	}
+
+	//check \ diagonal lines
+	win = true;
+	for(i = 0; i <cells; i++ ){
+		if( ! $('tr[data-y=' + i + '] > td[data-x=' + i + ']').hasClass(player) ){
+			win = false;
+			break;		
+		}
+	}
+
+	if(win == true){
+		setTimeout(function(){
+			alert('Winner');
+		}, 100);
+		return true;
+	}
+
+	//check / diagonal lines
+	win = true;
+	for(i = 0; i <cells; i++ ){
+		var y = (cells-1)-i;
+		if( ! $('tr[data-y=' + y + '] > td[data-x=' + i + ']').hasClass(player) ){
+			win = false;
+			break;		
+		}
+	}
+
+	if(win == true){
+		setTimeout(function(){
+			alert('Winner');
+		}, 100);
+		return true;
+	}
+
+	return false;
+
 }
 
-$(document).ready(function(){
+function newGame(){
+	if(player1Score == 3 || player2Score == 3){
+		alert("Player " + player + " has won the tournament ");
+		return;
+	}
+
+	gameOver = false;
 	$.ajax({
 		type: 'GET',
 		url: 'https://www.random.org/integers/',
 		data: {
 			num:1,
 			min: 3,
-			max: 5,
+			max: 4,
 			base: 10,
 			col:1,
 			base:10,
@@ -69,6 +116,7 @@ $(document).ready(function(){
 
 		},
 		success: function(data, code, xhr){
+			$('table').empty();
 			cells = data; //our variable is now defined
 			//append table data dynamically depending on the random number we get from the request. First append <tr>
 			for(i = 0; i < cells; i++){
@@ -85,28 +133,61 @@ $(document).ready(function(){
 			//get all the clicks on all <td> and alternate colors depending on player
 			$('td').click(function(ev){
 
-				//add css color class
-				$(ev.currentTarget).addClass(player);
+				if(gameOver){
+					alert("Game over");
+					return;
+				}
 
-				playerWon($(ev.currentTarget));
+				var elemento = $(ev.currentTarget);
+
+				//check for tie
+				function checkTie(){
+					
+				}
+
+				//only allow clicking if the element does not have a class
+				if( elemento.hasClass(pink) || elemento.hasClass(green) ){
+					return;
+				}
+				//add css color class
+				elemento.addClass(player);
+
+				if(playerWon(elemento)){
+					gameOver = true;
+					if (player == pink){
+						player1Score ++;
+						$("#player1").html(player1Score);
+					} else {
+						player2Score ++;
+						$("#player2").html(player2Score);
+					}
+					return;
+				}
 
 				if(player === 'pink'){
 					player = green;
+				
 				} else {
 					player = pink;
 				}
-
+				
 			});
 
 		}
 	});
+}
+
+$(document).ready(function(){
+
+	newGame();
+
+	$("#player1").html(player1Score);
+	$("#player2").html(player2Score);
 
 	
+	$("#newGame").click(function(){
+		console.log('ok');
+		newGame();
+	});
+	
 });
-
-
-//callback function 
-/*
-$(document).ready(function(){
-	getParameters();
-}); */
