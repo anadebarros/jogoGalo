@@ -9,6 +9,13 @@ var gameOver = false;
 var player1Score = 0;
 var player2Score = 0;
 
+var media;
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    media = new Media("file:///android_asset/www/dog-howling-yapping-daniel_simon.mp3");
+}
+
 //create a function to check if player won
 function playerWon(events){
 
@@ -32,6 +39,7 @@ function playerWon(events){
 		setTimeout(function(){
 			alert('Winner');
 		}, 100);
+		media.play();
 		return true;
 	}
 
@@ -53,6 +61,7 @@ function playerWon(events){
 		setTimeout(function(){
 			alert('Winner');
 		}, 100);
+		media.play();
 		return true;
 	}
 
@@ -69,6 +78,7 @@ function playerWon(events){
 		setTimeout(function(){
 			alert('Winner');
 		}, 100);
+		media.play();
 		return true;
 	}
 
@@ -86,6 +96,7 @@ function playerWon(events){
 		setTimeout(function(){
 			alert('Winner');
 		}, 100);
+		media.play();
 		return true;
 	}
 
@@ -94,11 +105,13 @@ function playerWon(events){
 }
 
 //check for tie
+/*
 function checkTie(){
-	if( ){
-
+	if(gameOver == true && ( player1Score == 0 && player2Score == 0 ) ){
+		alert("it's a tie!");
 	}
-}
+	return;
+}*/
 
 function newGame(){
 	if(player1Score == 3 || player2Score == 3){
@@ -139,6 +152,7 @@ function newGame(){
 
 			//get all the clicks on all <td> and alternate colors depending on player
 			$('td').click(function(ev){
+				navigator.vibrate(500);
 
 				if(gameOver){
 					alert("Game over");
@@ -164,8 +178,6 @@ function newGame(){
 						$("#player2").html(player2Score);
 					}
 					return;
-				} else {
-					checkTie();
 				}
 
 				if(player === 'pink'){
